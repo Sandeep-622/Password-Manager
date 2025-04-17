@@ -7,11 +7,11 @@ const Manager = () => {
     const passwordRef = useRef();
     const [form, setForm] = useState({ site: "", username: "", password: "" })
     const [passwordArray, setPasswordArray] = useState([])
-    const notify = () => toast('Copied to Clipboard');
+    const notify = (item) => toast(item);
 
     // Copy items funciton
     const copyItem = (text) => {
-        notify();
+        notify("Copied to Clipboard!");
         navigator.clipboard.writeText(text);
     }
 
@@ -44,6 +44,8 @@ const Manager = () => {
         localStorage.setItem("password", JSON.stringify(newPasswordArray))
         setPasswordArray(newPasswordArray)
         setForm({ site: "", username: "", password: "", id: "" })
+        notify("Password Saved");
+
     }
     const changeHandler = (e) => {
         let newForm = { ...form, [e.target.name]: e.target.value }
@@ -66,10 +68,14 @@ const Manager = () => {
 
     // Delete Passwords
     const deletePasswords = (id) => {
-        let newPasswordArray = [...passwordArray]
-        newPasswordArray = newPasswordArray.filter(item => (item.id !== id) )
-        localStorage.setItem("password", JSON.stringify(newPasswordArray))
-        setPasswordArray(newPasswordArray)
+        let c = confirm("Do you want to delete the password")
+        if(c){
+
+            let newPasswordArray = [...passwordArray]
+            newPasswordArray = newPasswordArray.filter(item => (item.id !== id) )
+            localStorage.setItem("password", JSON.stringify(newPasswordArray))
+            setPasswordArray(newPasswordArray)
+        }
     }
 
 
