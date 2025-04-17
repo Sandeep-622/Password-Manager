@@ -4,18 +4,18 @@ const Manager = () => {
     const ref = useRef();
     const [form, setForm] = useState({ site: "", username: "", password: "" })
     const [passwordArray, setPasswordArray] = useState([])
-    
+
     // Loading saved passwords
     useEffect(() => {
-      let password = localStorage.getItem("password")
-      if(password){
-        setPasswordArray(JSON.parse(password));
-      }
-      else{
-        setPasswordArray([])
-      }
+        let password = localStorage.getItem("password")
+        if (password) {
+            setPasswordArray(JSON.parse(password));
+        }
+        else {
+            setPasswordArray([])
+        }
     }, [])
-    
+
     const showPassword = (params) => {
         console.log(ref.current.src);
         if (ref.current.src.includes("/icons/hidden.png")) {
@@ -25,12 +25,14 @@ const Manager = () => {
             ref.current.src = "./icons/hidden.png"
         }
     }
-// Saving Passwords
-    const savePassword = () =>{
-        console.log(form)
+    // Saving Passwords
+    const savePassword = () => {
+        let newPasswordArray = [...passwordArray, form]
+        localStorage.setItem("password", JSON.stringify(newPasswordArray))
+        setPasswordArray(newPasswordArray)
     }
-    const changeHandler = (e)=>{
-        let newForm = {...form,[e.target.name]:e.target.value}
+    const changeHandler = (e) => {
+        let newForm = { ...form, [e.target.name]: e.target.value }
         setForm(newForm)
     }
 
@@ -76,6 +78,41 @@ const Manager = () => {
                     </button>
 
 
+                </div>
+
+                {/* Displaying Saved Passwords */}
+                <div className="passwords">
+                    <h2 className=' font-bold text-xl py-4'>Your Passwords</h2>
+
+                    {/* Password Table */}
+                    {passwordArray.length === 0 && <div>No passwords to display</div>}
+                    {passwordArray.length !== 0 && <table className="w-full text-sm rounded-lg overflow-hidden">
+                        <thead className="text-sm text-white bg-green-800">
+                            <tr>
+                                <th scope="col" className="px-6 py-3">
+                                    Site
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Username
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Password
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody className='text-black bg-green-200'>
+                            {passwordArray.map((item,index) => {
+                                return (
+                                    <tr key = {index} className=''>
+                                        <td className='text-sm  text-gray-900 px-2 py-4 text-center w-50'> <a href={item.site} target='_black'>{item.site}</a></td>
+                                        <td className='text-sm  text-gray-900 px-2 py-4 text-center w-25'>{item.username}</td>
+                                        <td className='text-sm  text-gray-900 px-2 py-4 text-center w-25'>{item.password}</td>
+                                    </tr>
+                                )
+                            })}
+
+                        </tbody>
+                    </table>}
                 </div>
             </div>
         </>
