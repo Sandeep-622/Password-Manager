@@ -8,8 +8,8 @@ const Navbar = () => {
           <span className='text-green-600'>&lt;</span>
           Pass
           <span className='text-green-600'>OP/ &gt;</span>
-          </div>
-        <ul className='flex gap-3'>
+        </div>
+        <ul className='flex gap-3 justify-center'>
           <li>
             <a className='hover:font-bold' href="/">Home</a>
           </li>
@@ -20,6 +20,9 @@ const Navbar = () => {
             <a className='hover:font-bold' href="#">Contact</a>
           </li>
         </ul>
+        <div>
+          <button>Github</button>
+        </div>
       </div>
     </nav>
   )
